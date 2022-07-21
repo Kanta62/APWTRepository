@@ -1,0 +1,37 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body onload="loadDoc()">
+<h2>Product API Test</h2>
+<ul>
+  <li id="productId"></li>
+  <li id="productName"></li>
+  <li id="productAmount"></li>
+  <li id="productAddress"></li>
+  <li id="deliveryTime"></li>
+</ul>
+
+<script>
+function loadDoc() {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    	var obj_arr = JSON.parse( this.responseText);
+      console.log(obj_arr);
+      document.getElementById("productId").innerHTML =obj_arr[0].id;
+      document.getElementById("productName").innerHTML =obj_arr[0].name;
+      document.getElementById("productAmount").innerHTML =obj_arr[0].amount;
+      document.getElementById("productAddress").innerHTML =obj_arr[0].address;
+      document.getElementById("deliveryTime").innerHTML =obj_arr[0].time;
+    }
+  };
+  xhttp.open("GET", "http://127.0.0.1:8000/api/products/list");
+  xhttp.send();
+}
+</script>
+</body>
+</html> -->
