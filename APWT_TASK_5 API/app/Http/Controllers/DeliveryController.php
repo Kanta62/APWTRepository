@@ -120,6 +120,30 @@ class DeliveryController extends Controller
         return redirect()->route('delivery.login');
     }
 
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'name'=>'required',
+            'amount'=>'required',
+            'address'=>'required',
+            'time'=>'nullable'
+        ]);
+
+        try{
+
+            $product->fill($request->post())->update();
+
+            return response()->json([
+                'message'=>'Product Updated Successfully!!'
+            ]);
+
+        }catch(\Exception $e){
+            \Log::error($e->getMessage());
+            return response()->json([
+                'message'=>'Something goes wrong while updating a product!!'
+            ],500);
+        }
+    }
 
     public function dashboard()
     {
@@ -313,6 +337,13 @@ class DeliveryController extends Controller
         return History::all();
     }
     public function APIPost(Request $req){
+
+        $req->validate([
+            'name'=>'required|min:2',
+            'amount'=>'required|int',
+            'address'=>'required',
+            'time'=>'required'
+        ]);
         $history = new History();
         $history->name = $req->name;
         $history->amount = $req->amount;
@@ -321,5 +352,41 @@ class DeliveryController extends Controller
         $history->save();
 
         return $req;
+    }
+    function Search($id){
+        $data = History::where('id',$id)->first();
+        return response()->json($data);
+    }
+
+    function APIShowbyId($id){
+        $history = History::all();
+        return response()->json($history);
+    }
+
+    public function APIUpdate(Request $request, History $history)
+    {
+        $request->validate([
+            'name'=>'required|min:2',
+            'amount'=>'required',
+            'address'=>'required',
+            'time'=>'nullable'
+        ]);
+
+        try{
+
+            $history->fill($request->post())->update();
+
+            return response()->json([
+                'message'=>'Order Updated Successfully!!'
+            ]);
+
+        }catch(\Exception $e){
+            \Log::error($e->getMessage());
+            return response()->json([
+                'message'=>'Something goes wrong while updating an Order!!'
+            ],500);
+        }
+        // 
+        
     }
 }
