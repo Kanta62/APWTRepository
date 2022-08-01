@@ -363,7 +363,7 @@ class DeliveryController extends Controller
         return response()->json($history);
     }
 
-    public function APIUpdate(Request $request, History $history)
+    public function APIUpdate(Request $request)
     {
         $request->validate([
             'name'=>'required|min:2',
@@ -372,20 +372,40 @@ class DeliveryController extends Controller
             'time'=>'nullable'
         ]);
 
+        // $data= History::where('id',$request->id)->first();
+
+        // return $data;
+
         try{
 
-            $history->fill($request->post())->update();
+            $hiistory->fill($request->post())->update();
+
 
             return response()->json([
-                'message'=>'Order Updated Successfully!!'
+                'message'=>'Product Updated Successfully!!'
             ]);
 
         }catch(\Exception $e){
             \Log::error($e->getMessage());
             return response()->json([
-                'message'=>'Something goes wrong while updating an Order!!'
+                'message'=>'Something goes wrong while updating a product!!'
             ],500);
         }
+    }
+        // 
+        
+    
+    public function APIUpdateSubmit(Request $request)
+    {
+        History::where('id',$request->id)
+                    ->update(['name'=> $request->name,'amount'=> $request->amount,'address'=> $request->address]);
+
+        // session()->forget('delivery.name');
+        // session()->put('delivery.name',$request->i_name);
+
+        //  return redirect()->route('delivery.dashboard');
+
+        return "ok";
         // 
         
     }
